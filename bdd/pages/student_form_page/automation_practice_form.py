@@ -10,6 +10,7 @@ from bdd.config.global_configuration import MOCKAROO_URL, MOCKAROO_API_PATH, MOC
     IMAGE_PATH, HOBBIES_LIST
 from bdd.config.global_configuration import GLOBAL_TIMEOUT
 from selenium.webdriver.common.keys import Keys
+from bdd.helpers.location_processor import get_state_and_city
 
 
 class StudentRegistrationFormPage(BasePage):
@@ -79,9 +80,11 @@ class StudentRegistrationFormPage(BasePage):
         # Select Hobby
         check_box_hobby = self.context.browser. \
             find_elements_by_xpath("//*[@class='custom-control custom-checkbox custom-control-inline']")
+        random_hobby = random.choice(HOBBIES_LIST)
         for i in range(len(check_box_hobby)-1):
-            if check_box_hobby[i].text == random.choice(HOBBIES_LIST):
+            if check_box_hobby[i].text == random_hobby:
                 check_box_hobby[i].click()
+                break
 
         # Fill birthdate
         birthdate_element = self.context.browser.find_element_by_id('dateOfBirthInput')
@@ -102,11 +105,23 @@ class StudentRegistrationFormPage(BasePage):
         WebDriverWait(self.context.browser, GLOBAL_TIMEOUT). \
             until(ec.presence_of_element_located(self.CURRENT_ADDRESS_FIELD)).send_keys(address)
 
-        country_element = self.context.browser.find_element_by_id('react-select-3-input')
-        country_element.send_keys('Uttar Pradesh')
-        country_element.send_keys(Keys.ENTER)
-        time.sleep(10)
+        # Fill State
+        state_city_random_data = get_state_and_city()
+        state_element = self.context.browser.find_element_by_id('react-select-3-input')
+        state_element.send_keys(state_city_random_data['state'])
+        state_element.send_keys(Keys.ENTER)
+
+        city_element = self.context.browser.find_element_by_id('react-select-4-input')
+        city_element.send_keys(state_city_random_data['city'])
+        city_element.send_keys(Keys.ENTER)
 
     def click_in_submit_button(self):
         self.context.browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
         WebDriverWait(self.context.browser, GLOBAL_TIMEOUT).until(ec.element_to_be_clickable(self.SUBMIT_BUTTON)).click()
+
+    def validate_if_data_table_is_visible(self):
+        time.sleep(20)
+        data_table = self.context.browser.find_element_by_class_name('modal-body')
+        dt = data_table.is_displayed()
+        return True if data_table.is_displayed() else False
+

@@ -17,3 +17,9 @@ def step_def(context):
 def step_def(context):
     context.current_page.click_in_submit_button()
 
+
+@Then('I see a table with new student information')
+def step_def(context):
+    context.current_page.validate_if_data_table_is_visible()
+    expected = False
+    assert(context.current_page.validate_if_data_table_is_visible() == expected, "No data table visible")

@@ -1,10 +1,12 @@
 import json
 import random
 
-file = open('states_and_cities.json')
+
+file = open("C:\\Users\\user\\Documents\\GitHub\\_weeloDemoQA\\bdd\\helpers\\states_and_cities.json", "r")
 
 
 def get_state_and_city():
+
     data = json.load(file)
     states_list = random.choice(['NCR', 'Uttar Pradesh', 'Haryana', 'Rajasthan'])
     city = random.choice(data[f"{states_list}"])
