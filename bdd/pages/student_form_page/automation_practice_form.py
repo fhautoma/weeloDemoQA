@@ -1,4 +1,6 @@
 import random
+import time
+
 from bdd.helpers.mockaroo_api_call import get_user_form_data_from_api
 from bdd.pages.base_page import BasePage
 from selenium.webdriver.common.by import By
@@ -99,6 +101,11 @@ class StudentRegistrationFormPage(BasePage):
         # Fill address
         WebDriverWait(self.context.browser, GLOBAL_TIMEOUT). \
             until(ec.presence_of_element_located(self.CURRENT_ADDRESS_FIELD)).send_keys(address)
+
+        country_element = self.context.browser.find_element_by_id('react-select-3-input')
+        country_element.send_keys('Uttar Pradesh')
+        country_element.send_keys(Keys.ENTER)
+        time.sleep(10)
 
     def click_in_submit_button(self):
         self.context.browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
