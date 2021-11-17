@@ -1,5 +1,4 @@
 import random
-import time
 
 from bdd.helpers.mockaroo_api_call import get_user_form_data_from_api
 from bdd.pages.base_page import BasePage
@@ -120,8 +119,7 @@ class StudentRegistrationFormPage(BasePage):
         WebDriverWait(self.context.browser, GLOBAL_TIMEOUT).until(ec.element_to_be_clickable(self.SUBMIT_BUTTON)).click()
 
     def validate_if_data_table_is_visible(self):
-        time.sleep(20)
         data_table = self.context.browser.find_element_by_class_name('modal-body')
-        dt = data_table.is_displayed()
+        actual = data_table.is_displayed()
         return True if data_table.is_displayed() else False
 

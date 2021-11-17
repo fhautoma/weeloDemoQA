@@ -10,8 +10,5 @@ Feature: Fill Student Registration Form
   Scenario: Create Student in Demo_QA page
     Given a browser is used to load the URL "https://demoqa.com/automation-practice-form"
     When I fill student registration form
-      And I click submit button
+    And I click submit button
     Then I see a table with new student information
-
-
-

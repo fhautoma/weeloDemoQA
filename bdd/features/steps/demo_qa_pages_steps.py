@@ -1,5 +1,6 @@
 from behave import Given, When, Then
 from bdd.pages.student_form_page.automation_practice_form import StudentRegistrationFormPage
+import unittest
 
 
 @Given('a browser is used to load the URL "{url}"')
@@ -20,6 +21,7 @@ def step_def(context):
 
 @Then('I see a table with new student information')
 def step_def(context):
-    context.current_page.validate_if_data_table_is_visible()
-    expected = False
-    assert(context.current_page.validate_if_data_table_is_visible() == expected, "No data table visible")
+    actual_value = context.current_page.validate_if_data_table_is_visible()
+    expected_value = True
+    assert actual_value == expected_value, "Error, no data table displayed"
+
